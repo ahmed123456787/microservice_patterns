@@ -206,3 +206,4 @@ Each service uses environment variables for configuration:
 - **Scalability**: Services can scale independently
 - **Decoupling**: Services communicate through events, not direct calls
 - **Observability**: Clear event flow for monitoring and debugging
+            
