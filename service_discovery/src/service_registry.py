@@ -58,7 +58,7 @@ class ServiceRegistry:
     
     def unregister_service(self, service_name: str,ip_address: str):
         instances = self.get_service(service_name)
-        instances = [inst for inst in instances if inst['ip_address'] != ip_address]
+        instances = [inst for inst in instances if inst['address'] != ip_address]
         if instances:
             self.redis_client.hset('services', service_name, json.dumps(instances))
         else:
