@@ -46,20 +46,19 @@ async def unregister_service(service_name: str, address: str):
             status_code=404
         )
     
-    
-@router.post("/heartbeat/{service_name}", tags=["Service Discovery"])
-async def heartbeat(service_name: str):
-    address = serivice_registery.get_service(service_name)
-    if address:
+
+@router.post("/heartbeat/{service_name}/{address}", tags=["Service Discovery"])
+async def heartbeat(service_name: str, address: str):
+    success = serivice_registery.heartbeat(service_name, address)
+    if success:
         return Response(
-            content=json.dumps({"message": f"Service {service_name} is alive at address {address}."}),
+            content=json.dumps({"message": f"Service {service_name} heartbeat updated at address {address}."}),
             media_type="application/json",
             status_code=200
         )
     else:
         return Response(
-            content=json.dumps({"error": f"Service {service_name} not found."}),
+            content=json.dumps({"error": f"Service {service_name} with address {address} not found."}),
             media_type="application/json",
             status_code=404
         )
-    

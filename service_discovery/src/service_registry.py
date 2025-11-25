@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 
-
 class ServiceRegistry:
     def __init__(self, redis_host='redis', redis_port=6379):
         self.redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
@@ -35,7 +34,7 @@ class ServiceRegistry:
         instances = self.get_service(service_name)
         if instances:
             for instance in instances:
-                if instance['ip_address'] == ip_address:
+                if instance['address'] == ip_address:
                     return instance
         return None
 
@@ -69,7 +68,7 @@ class ServiceRegistry:
         instances = self.get_service(service_name)
         if instances:
             for instance in instances:
-                if instance['ip_address'] == ip_address:
+                if instance['address'] == ip_address:
                     instance['last_heartbeat'] = int(time.time())
                     instance['status'] = 'healthy'
             self.redis_client.hset('services', service_name, json.dumps(instances))
